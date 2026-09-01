@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Westbridge Financial incident investigation flow</title>
+  <desc id="desc">A timeline from service desk report through failed and successful logons, suspicious PowerShell discovery, analyst correlation, containment, and recovery.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#122844"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".28"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#72d5ff"/></marker>
+    <style>
+      .title{font:700 34px system-ui,sans-serif;fill:#fff}.sub{font:18px system-ui,sans-serif;fill:#b9cbe2}.label{font:700 16px system-ui,sans-serif;fill:#081524}.body{font:14px system-ui,sans-serif;fill:#263b52}.small{font:13px system-ui,sans-serif;fill:#b9cbe2}.pill{font:700 13px system-ui,sans-serif;fill:#fff}.box{filter:url(#shadow);stroke-width:2}.arrow{stroke:#72d5ff;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="820" rx="24" fill="url(#bg)"/>
+  <text x="70" y="70" class="title">Westbridge Financial — Incident WBF-IR-2025-001</text>
+  <text x="70" y="104" class="sub">From service desk signal to evidence-based security response • FIN-WS01 • Synthetic lab</text>
+
+  <rect x="70" y="145" width="1260" height="92" rx="18" fill="#0d2037" stroke="#294968"/>
+  <text x="100" y="180" class="pill">ENVIRONMENT</text>
+  <text x="100" y="211" class="sub">Finance/Risk employee</text><text x="323" y="211" class="sub">→</text>
+  <text x="365" y="211" class="sub">FIN-WS01 Windows endpoint</text><text x="630" y="211" class="sub">→</text>
+  <text x="674" y="211" class="sub">Active Directory / IAM</text><text x="890" y="211" class="sub">→</text>
+  <text x="934" y="211" class="sub">Security + Sysmon telemetry</text>
+
+  <path class="arrow" d="M245 382H305"/><path class="arrow" d="M485 382H545"/><path class="arrow" d="M725 382H785"/><path class="arrow" d="M965 382H1025"/>
+  <rect class="box" x="65" y="310" width="180" height="145" rx="16" fill="#e8f5ff" stroke="#72d5ff"/>
+  <text x="85" y="343" class="label">1  User report</text><text x="85" y="372" class="body">Word freezes and a</text><text x="85" y="393" class="body">PowerShell window flashes</text><text x="85" y="429" class="body">Ticket SD-2025-0314-117</text>
+  <rect class="box" x="305" y="310" width="180" height="145" rx="16" fill="#fff1e8" stroke="#ff9e63"/>
+  <text x="325" y="343" class="label">2  Failure burst</text><text x="325" y="372" class="body">Five Event 4625 failures</text><text x="325" y="393" class="body">Logon Type 10</text><text x="325" y="429" class="body">Same user + source IP</text>
+  <rect class="box" x="545" y="310" width="180" height="145" rx="16" fill="#ffe9e9" stroke="#ff6f6f"/>
+  <text x="565" y="343" class="label">3  Access succeeds</text><text x="565" y="372" class="body">Event 4624 follows</text><text x="565" y="393" class="body">46 seconds later</text><text x="565" y="429" class="body">Event 4672 adds context</text>
+  <rect class="box" x="785" y="310" width="180" height="145" rx="16" fill="#f3e9ff" stroke="#b78aff"/>
+  <text x="805" y="343" class="label">4  Execution</text><text x="805" y="372" class="body">WINWORD.EXE launches</text><text x="805" y="393" class="body">PowerShell via Sysmon 1</text><text x="805" y="429" class="body">Bypass + -NoP indicators</text>
+  <rect class="box" x="1025" y="310" width="310" height="145" rx="16" fill="#e8fff5" stroke="#55d69e"/>
+  <text x="1045" y="343" class="label">5  Discovery and correlation</text><text x="1045" y="372" class="body">Get-LocalUser • Get-Process • whoami /all</text><text x="1045" y="402" class="body">Identity + time + source + process ancestry</text><text x="1045" y="429" class="body">Risk: HIGH • Confidence: MODERATE</text>
+
+  <path class="arrow" d="M1180 455V510H1070"/>
+  <rect x="70" y="525" width="1260" height="188" rx="18" fill="#0d2037" stroke="#294968"/>
+  <text x="100" y="562" class="pill">RESPONSE DECISION</text>
+  <rect x="100" y="590" width="260" height="82" rx="14" fill="#17375a"/><text x="120" y="621" class="pill">CONTAIN</text><text x="120" y="648" class="small">Isolate host • revoke sessions</text>
+  <path class="arrow" d="M360 631H420"/>
+  <rect x="420" y="590" width="260" height="82" rx="14" fill="#17375a"/><text x="440" y="621" class="pill">PRESERVE + SCOPE</text><text x="440" y="648" class="small">Collect evidence • enterprise hunt</text>
+  <path class="arrow" d="M680 631H740"/>
+  <rect x="740" y="590" width="260" height="82" rx="14" fill="#17375a"/><text x="760" y="621" class="pill">ERADICATE + RECOVER</text><text x="760" y="648" class="small">Rebuild • validate data integrity</text>
+  <path class="arrow" d="M1000 631H1060"/>
+  <rect x="1060" y="590" width="240" height="82" rx="14" fill="#17375a"/><text x="1080" y="621" class="pill">IMPROVE</text><text x="1080" y="648" class="small">MFA • logging • detection tuning</text>
+
+  <text x="70" y="765" class="small">Analytical boundary: the chain supports suspected compromise; it does not by itself prove malware, data access, exfiltration, or actor attribution.</text>
+</svg>

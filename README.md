@@ -4,6 +4,8 @@ A portfolio-scale investigation for **Westbridge Financial**, a fictional financ
 
 > Every user, host, address, ticket, and log is synthetic. No malware is executed and no production data is used.
 
+![Westbridge Financial incident investigation flow](evidence/incident-flow.svg)
+
 ## Executive finding
 
 Five failed remote-interactive logons for `jsmith` from an external documentation address were followed by a success, privileged-token assignment, and PowerShell launched by Word. The command performed account and process discovery. This is assessed as a **high-risk suspected account and endpoint compromise**, not a confirmed breach: the evidence supports containment but does not prove data access or exfiltration.
@@ -23,6 +25,7 @@ detection/          Python detector and PowerShell triage
 evidence/           Synthetic JSONL and analysis notes
 incident-report/    Summary, timeline, and risk assessment
 mitre/              Evidence-to-ATT&CK mapping
+notes/              Contextual cybersecurity vocabulary
 remediation/        Prioritized response and control plan
 tests/              Python unit tests
 ```
@@ -51,6 +54,8 @@ The detector raises explainable findings for a failure burst, a success from the
 ## Analyst conclusion
 
 The leading hypothesis is compromised credentials followed by user-context execution. Confidence is **moderate** because network, EDR, identity-provider, email, and memory evidence are absent. Read the [incident summary](incident-report/incident-summary.md), [timeline](incident-report/investigation-timeline.md), [risk assessment](incident-report/risk-assessment.md), and [remediation plan](remediation/recommendations.md).
+
+The [vocabulary notes](notes/vocabulary-notes.md) explain the investigation’s identity, endpoint, detection, response, evidence, risk, SOX, NIST, and ATT&CK terminology—including common distinctions that prevent overclaiming.
 
 ## References and limitations
 
