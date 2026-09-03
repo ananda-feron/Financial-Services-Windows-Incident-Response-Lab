@@ -139,6 +139,18 @@ The reports calculate event/rule/alert totals, expected versus actual detection 
 
 See [Metrics Methodology](docs/METRICS_METHODOLOGY.md) for definitions, denominators, ground-truth scope, and interpretation limits.
 
+## Run the Phase 6 analyst dashboard
+
+```bash
+python -m dashboard.app
+```
+
+Open `http://127.0.0.1:5000`. The four live-data views cover operations overview, detection outcomes, incident investigation, and labeled ATT&CK coverage. Incident filters, global search, raw-XML evidence drill-down, analyst notes, simulated response controls, audit events, and demonstration RBAC are included.
+
+The local role model defaults to `VIEWER`; use the `role` query parameter or `X-Lab-Role` header to demonstrate `ANALYST`, `INCIDENT_RESPONDER`, and `ADMIN`. This is a portfolio authorization model, not production authentication.
+
+The [DET-003 investigation](docs/DET-003-INVESTIGATION.md) explains why one stored outcome was inconsistent with the current rule and how stale-result reconciliation preserves it without treating it as active.
+
 ## Run the original correlation detector
 
 Python 3.10+ is sufficient for the synthetic correlation detector:

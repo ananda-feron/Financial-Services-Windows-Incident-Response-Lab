@@ -9,7 +9,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Mapping
 
-from detection_engine.database import insert_alerts
+from detection_engine.database import insert_alerts, reconcile_alerts
 from detection_engine.loader import load_rules
 from detection_engine.models import Alert, DetectionRule, utc_now
 
@@ -115,6 +115,8 @@ def run(database: Path, rules_directory: Path) -> tuple[list[Alert], tuple[int, 
     try:
         alerts = [create_alert(event, rule) for event in database_events(connection) for rule in rules if evaluate(event, rule)]
         result = insert_alerts(connection, alerts)
+        reconcile_alerts(connection, ((rule.id, rule.version) for rule in rules if rule.enabled),
+                         (alert.alert_id for alert in alerts))
         return alerts, result
     finally:
         connection.close()

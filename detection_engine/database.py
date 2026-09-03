@@ -66,6 +66,22 @@ def insert_alerts(connection: sqlite3.Connection, alerts: Iterable[Alert]) -> tu
     return inserted, skipped
 
 
+def reconcile_alerts(connection: sqlite3.Connection, rule_identities: Iterable[tuple[str, str]],
+                     current_alert_ids: Iterable[str]) -> int:
+    """Mark persisted outcomes that no longer match their current rule version stale."""
+    identities = tuple(rule_identities)
+    current = tuple(current_alert_ids)
+    before = connection.total_changes
+    for detection_id, version in identities:
+        connection.execute("UPDATE alerts SET status='stale' WHERE detection_id=? AND rule_version=?",
+                           (detection_id, version))
+    if current:
+        placeholders = ",".join("?" for _ in current)
+        connection.execute(f"UPDATE alerts SET status='new' WHERE alert_id IN ({placeholders})", current)
+    connection.commit()
+    return connection.total_changes - before
+
+
 def trace_alert(connection: sqlite3.Connection, alert_id: str) -> dict | None:
     """Trace an alert through its event to dataset and original EVTX source."""
     connection.row_factory = sqlite3.Row

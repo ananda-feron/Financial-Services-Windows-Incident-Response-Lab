@@ -39,6 +39,7 @@ def load_alerts(connection: sqlite3.Connection) -> list[CorrelationAlert]:
         a.technique_name, a.tactic, e.id, e.event_key, e.timestamp,
         e.hostname, e.username, e.source_file, e.dataset
       FROM alerts a JOIN events e ON e.id = a.event_id
+      WHERE a.status <> 'stale'
       ORDER BY e.timestamp, a.alert_id""").fetchall()
     return [CorrelationAlert(
         database_alert_id=row[0], alert_id=row[1], detection_id=row[2], severity=row[3],

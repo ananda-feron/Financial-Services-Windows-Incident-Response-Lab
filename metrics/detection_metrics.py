@@ -14,14 +14,14 @@ from metrics.database import count, grouped_counts, table_exists
 def detection_metrics(connection: sqlite3.Connection, rules_directory: Path) -> dict[str, Any]:
     rules = [rule for rule in load_rules(rules_directory) if rule.enabled]
     events = count(connection, "events")
-    alerts = count(connection, "alerts")
+    alerts = int(connection.execute("SELECT COUNT(*) FROM alerts WHERE status <> 'stale'").fetchone()[0]) if table_exists(connection, "alerts") else 0
     return {
         "events_analyzed": events,
         "enabled_rules": len(rules),
         "rules_evaluated": events * len(rules),
         "alerts_generated": alerts,
-        "alerts_by_severity": grouped_counts(connection, "alerts", "severity"),
-        "alerts_by_detection": grouped_counts(connection, "alerts", "detection_id"),
+        "alerts_by_severity": dict(connection.execute("SELECT severity,COUNT(*) FROM alerts WHERE status <> 'stale' GROUP BY severity ORDER BY severity").fetchall()) if table_exists(connection, "alerts") else {},
+        "alerts_by_detection": dict(connection.execute("SELECT detection_id,COUNT(*) FROM alerts WHERE status <> 'stale' GROUP BY detection_id ORDER BY detection_id").fetchall()) if table_exists(connection, "alerts") else {},
     }
 
 
@@ -49,7 +49,7 @@ def detection_performance(connection: sqlite3.Connection, manifest_path: Path) -
         actual = {
             (str(row[0]), str(row[1]))
             for row in connection.execute("""SELECT DISTINCT e.source_file, a.detection_id
-              FROM alerts a JOIN events e ON e.id = a.event_id""")
+              FROM alerts a JOIN events e ON e.id = a.event_id WHERE a.status <> 'stale'""")
         }
     render = lambda pairs: [
         {"source_file": source, "detection_id": detection}

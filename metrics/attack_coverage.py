@@ -19,7 +19,7 @@ def attack_coverage(connection: sqlite3.Connection, rules_directory: Path,
     detected: set[str] = set()
     if table_exists(connection, "alerts"):
         detected = {row[0] for row in connection.execute(
-            "SELECT DISTINCT technique_id FROM alerts WHERE technique_id IS NOT NULL"
+            "SELECT DISTINCT technique_id FROM alerts WHERE technique_id IS NOT NULL AND status <> 'stale'"
         )}
     technique_ids = sorted(observed | rules.keys() | detected)
     rows = [{
