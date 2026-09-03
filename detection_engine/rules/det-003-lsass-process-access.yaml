@@ -1,0 +1,28 @@
+id: DET-003
+version: "1.0"
+name: Suspicious LSASS Process Access
+description: Detects Sysmon process-access telemetry targeting LSASS from an uncommon source process.
+severity: critical
+confidence: high
+enabled: true
+conditions:
+  all:
+    - field: event_id
+      operator: equals
+      value: 10
+    - field: event_data.TargetImage
+      operator: ends_with
+      value: lsass.exe
+    - field: event_data.SourceImage
+      operator: ends_with
+      value: powershell.exe
+    - field: event_data.GrantedAccess
+      operator: equals
+      value: "0x00001010"
+mitre:
+  technique_id: T1003.001
+  technique_name: "OS Credential Dumping: LSASS Memory"
+  tactic: Credential Access
+  curated_by: Project analyst
+  curated_at: "2026-09-03"
+  mapping_rationale: Process access targeting LSASS is detection evidence for possible credential dumping; access alone does not prove credentials were successfully extracted.

@@ -45,6 +45,8 @@ def load_upstream_csv(path: Path) -> dict[str, dict[str, Any]]:
 def enrich(sample: dict[str, Any], upstream: dict[str, dict[str, Any]]) -> dict[str, Any]:
     enriched = dict(sample)
     enriched.setdefault("dataset", "EVTX-ATTACK-SAMPLES")
+    enriched.setdefault("curated_by", "Project analyst")
+    enriched.setdefault("curated_at", "2026-09-03")
     original = upstream.get(Path(sample["source_file"]).name, {})
     enriched["upstream_tactics"] = original.get("tactics", [])
     enriched["upstream_techniques"] = original.get("techniques", [])

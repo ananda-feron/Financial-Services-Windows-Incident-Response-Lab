@@ -6,3 +6,4 @@ reports/generated/
 data/raw/evtx/
 data/normalized/events/*.jsonl
 data/events.db
+data/alerts.json

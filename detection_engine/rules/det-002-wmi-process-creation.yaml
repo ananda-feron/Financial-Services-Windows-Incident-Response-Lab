@@ -1,0 +1,25 @@
+id: DET-002
+version: "1.0"
+name: WMI-Spawning Command Process
+description: Detects command execution where WMI Provider Host creates a process.
+severity: high
+confidence: high
+enabled: true
+conditions:
+  all:
+    - field: event_id
+      operator: in
+      values: [1, 4688]
+    - field: parent_process
+      operator: ends_with
+      value: wmiprvse.exe
+    - field: process_name
+      operator: exists
+      value: true
+mitre:
+  technique_id: T1047
+  technique_name: Windows Management Instrumentation
+  tactic: Execution
+  curated_by: Project analyst
+  curated_at: "2026-09-03"
+  mapping_rationale: WMI Provider Host spawning a command process is consistent with WMI execution; validate administrative baselines before escalation.

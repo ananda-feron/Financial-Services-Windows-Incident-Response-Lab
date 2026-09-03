@@ -22,9 +22,10 @@ Five failed remote-interactive logons for `jsmith` from an external documentatio
 ## Repository map
 
 ```text
-data/               External raw data (gitignored), metadata, normalized output
+data/               External raw data, metadata, normalized output, SQLite
 detection/          Python detector and PowerShell triage
-docs/               Data-source and ingestion methodology
+detection_engine/   Versioned YAML rules, evaluator, alert models/persistence
+docs/               Data-source, ingestion, and detection methodology
 evidence/           Synthetic JSONL and analysis notes
 ingestion/           EVTX parser, normalization, metadata, and SQLite storage
 incident-report/    Summary, timeline, and risk assessment
@@ -54,6 +55,23 @@ Query the result:
 sqlite3 data/events.db "SELECT source_category, technique_id, COUNT(*) FROM events GROUP BY 1, 2;"
 ```
 
+## Run the Phase 2 detection engine
+
+Evaluate the normalized database against three deterministic, versioned YAML rules and persist ATT&CK-mapped alerts:
+
+```bash
+python -m detection_engine.engine
+python -m detection_engine.engine --output data/alerts.json
+```
+
+The rules detect suspicious PowerShell behavior (`T1059.001`), WMI-spawned command execution (`T1047`), and PowerShell access to LSASS (`T1003.001`). Alert rows reference the original event instead of duplicating it, and repeated execution cannot create the same alert twice.
+
+```bash
+sqlite3 data/events.db "SELECT detection_id, rule_version, severity, technique_id, COUNT(*) FROM alerts GROUP BY 1, 2, 3, 4;"
+```
+
+See [Detection Methodology](docs/DETECTION_METHODOLOGY.md) for rule boundaries, versioning, evidence traceability, and limitations.
+
 ## Run the original correlation detector
 
 Python 3.10+ is sufficient for the synthetic correlation detector:
@@ -61,7 +79,7 @@ Python 3.10+ is sufficient for the synthetic correlation detector:
 ```bash
 python3 detection/event_parser.py evidence/sample-events.jsonl
 python3 detection/event_parser.py evidence/sample-events.jsonl --format json
-python3 -m unittest discover -s tests -v
+pytest
 ```
 
 On Windows, the companion script can inspect an exported CSV or query local Security and Sysmon logs with appropriate rights:
@@ -71,7 +89,7 @@ On Windows, the companion script can inspect an exported CSV or query local Secu
 .\detection\powershell-detection.ps1 -Hours 24
 ```
 
-## Detection model
+## Original synthetic correlation model
 
 The detector raises explainable findings for a failure burst, a success from the same source within 15 minutes, privileged-token assignment, PowerShell process creation, suspicious parents/arguments, and discovery commands. The fixture includes benign noise so correlation—not PowerShell's mere presence—drives the conclusion. Thresholds are lab assumptions, not universal production rules.
 

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "rules": [
+    {
+      "detection_id": "DET-001",
+      "name": "Suspicious PowerShell Execution",
+      "version": "1.0",
+      "severity": "high",
+      "technique_id": "T1059.001",
+      "source_dataset": "EVTX-ATTACK-SAMPLES",
+      "test_coverage": "positive, negative, golden-path"
+    },
+    {
+      "detection_id": "DET-002",
+      "name": "WMI-Spawning Command Process",
+      "version": "1.0",
+      "severity": "high",
+      "technique_id": "T1047",
+      "source_dataset": "EVTX-ATTACK-SAMPLES",
+      "test_coverage": "positive and negative"
+    },
+    {
+      "detection_id": "DET-003",
+      "name": "Suspicious LSASS Process Access",
+      "version": "1.0",
+      "severity": "critical",
+      "technique_id": "T1003.001",
+      "source_dataset": "EVTX-ATTACK-SAMPLES",
+      "test_coverage": "positive and negative"
+    }
+  ]
+}

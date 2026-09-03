@@ -1,0 +1,32 @@
+id: DET-001
+version: "1.0"
+name: Suspicious PowerShell Execution
+description: Detects PowerShell process or script-block telemetry with suspicious command characteristics.
+severity: high
+confidence: high
+enabled: true
+conditions:
+  all:
+    - field: event_id
+      operator: in
+      values: [1, 4688, 4104]
+    - any:
+        - field: process_name
+          operator: ends_with
+          value: powershell.exe
+        - field: command_line
+          operator: contains
+          value: powershell
+        - field: provider
+          operator: equals
+          value: Microsoft-Windows-PowerShell
+    - field: command_line
+      operator: contains_any
+      values: [-enc, -encodedcommand, -nop, executionpolicy bypass, invoke-expression, downloadstring, promptforcredential]
+mitre:
+  technique_id: T1059.001
+  technique_name: PowerShell
+  tactic: Execution
+  curated_by: Project analyst
+  curated_at: "2026-09-03"
+  mapping_rationale: Behavior uses PowerShell commands or scripts with suspicious execution characteristics, validated against the current ATT&CK technique definition.
