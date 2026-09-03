@@ -30,6 +30,7 @@ evidence/           Synthetic JSONL and analysis notes
 ingestion/           EVTX parser, normalization, metadata, and SQLite storage
 incident-report/    Summary, timeline, and risk assessment
 incidents/          Alert correlation, persistence, timelines, notes, HTML view
+ioc/                Incident-linked IOC extraction, deduplication, provenance
 mitre/              Evidence-to-ATT&CK mapping
 notes/              Contextual cybersecurity vocabulary
 remediation/        Prioritized response and control plan
@@ -90,6 +91,19 @@ python -m incidents.notes INC-XXXXXXXXXX --body "PowerShell activity preceded LS
 ```
 
 See [Incident Correlation](docs/INCIDENT_CORRELATION.md) for the deterministic policy, evidence relationships, investigation view, limitations, and current dataset result.
+
+## Extract Phase 4A indicators
+
+Extract incident-scoped IP addresses, hosts, users, processes, command lines, file paths, hashes, and domains from the referenced normalized events:
+
+```bash
+python -m ioc.extractor
+python -m ioc.extractor --incident INC-XXXXXXXXXX
+```
+
+IOC identity is deterministic by incident, type, and normalized value. Repeated values create additional event sightings rather than duplicate IOC records. Extracted values are observables requiring analyst validation—not automatic proof of compromise.
+
+See [IOC Extraction](docs/IOC_EXTRACTION.md) for field sources, normalization, deduplication, provenance, and analytical limitations.
 
 ## Run the original correlation detector
 
