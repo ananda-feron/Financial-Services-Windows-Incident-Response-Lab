@@ -2,3 +2,4 @@ python-evtx==0.8.1
 PyYAML==6.0.2
 pytest==8.4.2
 Flask==3.1.2
+fastavro==1.12.1

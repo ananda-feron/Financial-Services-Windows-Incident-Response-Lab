@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "datasets": [
+    {
+      "dataset_id": "EVTX-ATTACK-SAMPLES",
+      "dataset_name": "EVTX-ATTACK-SAMPLES",
+      "publisher": "Sébastien Bousseaden / community contributors",
+      "collection_period": "Multiple independent samples",
+      "stream": "Selected Windows EVTX files",
+      "platform": "Windows",
+      "source_url": "https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES",
+      "license": "GPL-3.0",
+      "ground_truth_available": false
+    },
+    {
+      "dataset_id": "DARPA-TC5-FIVEDIRECTIONS-PILOT",
+      "dataset_name": "DARPA Transparent Computing Engagement 5",
+      "publisher": "DARPA Information Innovation Office",
+      "collection_period": "2019-05-08 through 2019-05-17",
+      "stream": "FiveDirections instance 1 pilot shard",
+      "platform": "Windows",
+      "source_url": "https://drive.google.com/drive/folders/1snBIYN6zVerZ9I1BR-aYtoudn8fnHECj",
+      "license": "Public domain; released as-is",
+      "ground_truth_available": true,
+      "schema_version": "CDM20",
+      "pilot_file": "ta1-fivedirections-1-e5-official-1.bin.1.gz",
+      "validation_status": "pending upstream download availability"
+    }
+  ]
+}

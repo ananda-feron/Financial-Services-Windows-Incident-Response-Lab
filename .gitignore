@@ -4,6 +4,8 @@ __pycache__/
 reports/generated/
 .venv/
 data/raw/evtx/
+data/raw/tc5/
+data/tc5.db
 data/normalized/events/*.jsonl
 data/events.db
 data/alerts.json

@@ -28,6 +28,7 @@ detection_engine/   Versioned YAML rules, evaluator, alert models/persistence
 docs/               Data-source, ingestion, and detection methodology
 evidence/           Synthetic JSONL and analysis notes
 ingestion/           EVTX parser, normalization, metadata, and SQLite storage
+tc5_ingestion/       Bounded CDM20 Avro pilot and separate SQLite schema
 incident-report/    Summary, timeline, and risk assessment
 incidents/          Alert correlation, persistence, timelines, notes, HTML view
 ioc/                Incident-linked IOC extraction, deduplication, provenance
@@ -150,6 +151,18 @@ Open `http://127.0.0.1:5000`. The four live-data views cover operations overview
 The local role model defaults to `VIEWER`; use the `role` query parameter or `X-Lab-Role` header to demonstrate `ANALYST`, `INCIDENT_RESPONDER`, and `ADMIN`. This is a portfolio authorization model, not production authentication.
 
 The [DET-003 investigation](docs/DET-003-INVESTIGATION.md) explains why one stored outcome was inconsistent with the current rule and how stale-result reconciliation preserves it without treating it as active.
+
+## Run the DARPA TC5 Windows pilot
+
+TC5 is handled by a separate CDM20 Avro pipeline rather than being forced through the EVTX schema. After obtaining the official first FiveDirections pilot shard:
+
+```bash
+python -m tc5_ingestion inspect --input data/raw/tc5/ta1-fivedirections-1-e5-official-1.bin.1.gz
+python -m tc5_ingestion normalize --input data/raw/tc5/ta1-fivedirections-1-e5-official-1.bin.1.gz --limit 10000
+python -m tc5_ingestion validate
+```
+
+See [TC5 Windows Pilot](docs/TC5_PILOT.md) for the scope, provenance model, ground-truth boundary, upstream download status, and interpretation limits. Existing EVTX detection rules have not been claimed or evaluated as TC5 detections.
 
 ## Run the original correlation detector
 

@@ -1,0 +1,18 @@
+{
+  "dataset_id": "DARPA-TC5-FIVEDIRECTIONS-PILOT",
+  "labeling_method": "Separate engagement-level ground truth; never automatically attached to each event",
+  "attack_windows": [],
+  "techniques": [],
+  "source_references": [
+    {
+      "title": "DARPA TC Engagement 5 ground-truth report",
+      "url": "https://drive.google.com/file/d/1cc3C5JW-Kn-VdXqeBGwvHBKSdR_YmSGj/view",
+      "status": "official source identified; extraction pending upstream quota availability"
+    },
+    {
+      "title": "DARPA Transparent Computing release README",
+      "url": "https://github.com/darpa-i2o/Transparent-Computing/blob/master/README.md",
+      "status": "verified"
+    }
+  ]
+}
