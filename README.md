@@ -29,6 +29,7 @@ docs/               Data-source, ingestion, and detection methodology
 evidence/           Synthetic JSONL and analysis notes
 ingestion/           EVTX parser, normalization, metadata, and SQLite storage
 incident-report/    Summary, timeline, and risk assessment
+incidents/          Alert correlation, persistence, timelines, notes, HTML view
 mitre/              Evidence-to-ATT&CK mapping
 notes/              Contextual cybersecurity vocabulary
 remediation/        Prioritized response and control plan
@@ -71,6 +72,24 @@ sqlite3 data/events.db "SELECT detection_id, rule_version, severity, technique_i
 ```
 
 See [Detection Methodology](docs/DETECTION_METHODOLOGY.md) for rule boundaries, versioning, evidence traceability, and limitations.
+
+## Correlate Phase 3 incidents
+
+Group related alerts by host, user, time window, and ATT&CK relationship, then render a focused investigation page:
+
+```bash
+python -m incidents.engine --render-dir reports/generated/incidents
+```
+
+For the selected real-data samples, the four alerts correctly form three incidents: two LSASS-access alerts correlate, while the later WMI alert and different-host PowerShell alert remain separate. Incident severity is the highest linked alert severity.
+
+Add analyst reasoning without changing the referenced evidence:
+
+```bash
+python -m incidents.notes INC-XXXXXXXXXX --body "PowerShell activity preceded LSASS access on the same host."
+```
+
+See [Incident Correlation](docs/INCIDENT_CORRELATION.md) for the deterministic policy, evidence relationships, investigation view, limitations, and current dataset result.
 
 ## Run the original correlation detector
 
