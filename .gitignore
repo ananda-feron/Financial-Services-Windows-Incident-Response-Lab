@@ -2,3 +2,7 @@ __pycache__/
 *.py[cod]
 .DS_Store
 reports/generated/
+.venv/
+data/raw/evtx/
+data/normalized/events/*.jsonl
+data/events.db

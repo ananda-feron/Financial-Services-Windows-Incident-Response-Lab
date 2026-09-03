@@ -1,6 +1,6 @@
-# Financial Services Windows Incident Response Lab
+# Financial Services Windows Threat Detection & Incident Response Lab
 
-A portfolio-scale investigation for **Westbridge Financial**, a fictional financial-services firm. The lab correlates Windows authentication events with Sysmon process telemetry on Finance/Risk workstation `FIN-WS01`.
+A hands-on detection-engineering and incident-response lab for **Westbridge Financial**, a fictional financial-services firm. The project now ingests real Windows event samples, normalizes them, preserves ATT&CK provenance, and stores them in SQLite for analysis. Its original synthetic `FIN-WS01` investigation remains as the incident narrative.
 
 > Every user, host, address, ticket, and log is synthetic. No malware is executed and no production data is used.
 
@@ -12,6 +12,7 @@ Five failed remote-interactive logons for `jsmith` from an external documentatio
 
 ## Skills demonstrated
 
+- EVTX ingestion using `python-evtx`, XML normalization, JSONL, and SQLite
 - Windows Events **4624**, **4625**, **4672**, and Sysmon Event **1**
 - Authentication-to-process correlation and explainable detection logic
 - Python parsing, PowerShell triage, automated tests, and JSON/Markdown reporting
@@ -21,8 +22,11 @@ Five failed remote-interactive logons for `jsmith` from an external documentatio
 ## Repository map
 
 ```text
+data/               External raw data (gitignored), metadata, normalized output
 detection/          Python detector and PowerShell triage
+docs/               Data-source and ingestion methodology
 evidence/           Synthetic JSONL and analysis notes
+ingestion/           EVTX parser, normalization, metadata, and SQLite storage
 incident-report/    Summary, timeline, and risk assessment
 mitre/              Evidence-to-ATT&CK mapping
 notes/              Contextual cybersecurity vocabulary
@@ -30,9 +34,29 @@ remediation/        Prioritized response and control plan
 tests/              Python unit tests
 ```
 
-## Run it
+## Run the EVTX lab
 
-Python 3.10+ is sufficient; there are no third-party dependencies.
+Clone the external GPL-3.0 dataset without vendoring it into this repository:
+
+```bash
+git clone --depth 1 https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES.git data/raw/evtx
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m ingestion.evtx_parser
+```
+
+The selected seven scenarios produce normalized JSONL under `data/normalized/events/` and a queryable `data/events.db`. See [Data Sources](docs/DATA_SOURCES.md) and [Ingestion Pipeline](docs/INGESTION_PIPELINE.md) for provenance, licensing, schema, and analytical boundaries.
+
+Query the result:
+
+```bash
+sqlite3 data/events.db "SELECT source_category, technique_id, COUNT(*) FROM events GROUP BY 1, 2;"
+```
+
+## Run the original correlation detector
+
+Python 3.10+ is sufficient for the synthetic correlation detector:
 
 ```bash
 python3 detection/event_parser.py evidence/sample-events.jsonl
@@ -59,6 +83,7 @@ The [vocabulary notes](notes/vocabulary-notes.md) explain the investigation’s 
 
 ## References and limitations
 
+- [EVTX-ATTACK-SAMPLES](https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES) — external GPL-3.0 test-data dependency
 - [NIST Cybersecurity Framework 2.0](https://www.nist.gov/publications/nist-cybersecurity-framework-csf-20)
 - [MITRE ATT&CK PowerShell (T1059.001)](https://attack.mitre.org/techniques/T1059/001/), [Valid Accounts (T1078)](https://attack.mitre.org/techniques/T1078/), [Account Discovery (T1087)](https://attack.mitre.org/techniques/T1087/), and [Process Discovery (T1057)](https://attack.mitre.org/techniques/T1057/)
 

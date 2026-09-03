@@ -1,0 +1,69 @@
+{
+  "dataset": "EVTX-ATTACK-SAMPLES",
+  "mapping_note": "source_category preserves the upstream folder. technique_id and attack_tactic are analyst-curated current ATT&CK mappings and do not imply actor attribution.",
+  "samples": [
+    {
+      "scenario": "PowerShell credential prompt",
+      "source_file": "Credential Access/phish_windows_credentials_powershell_scriptblockLog_4104.evtx",
+      "source_category": "Credential Access",
+      "technique_id": "T1056.002",
+      "technique_name": "Input Capture: GUI Input Capture",
+      "attack_tactic": "Credential Access",
+      "mapping_basis": "Curated from filename and event content; validate during investigation"
+    },
+    {
+      "scenario": "Credential dumping with PowerShell",
+      "source_file": "Credential Access/babyshark_mimikatz_powershell.evtx",
+      "source_category": "Credential Access",
+      "technique_id": "T1003",
+      "technique_name": "OS Credential Dumping",
+      "attack_tactic": "Credential Access",
+      "mapping_basis": "Curated current mapping; upstream RuleName mappings retained separately"
+    },
+    {
+      "scenario": "Local account and group discovery",
+      "source_file": "Discovery/discovery_local_user_or_group_windows_security_4799_4798.evtx",
+      "source_category": "Discovery",
+      "technique_id": "T1087.001",
+      "technique_name": "Account Discovery: Local Account",
+      "attack_tactic": "Discovery",
+      "mapping_basis": "Curated from filename and Windows event semantics"
+    },
+    {
+      "scenario": "PowerShell remoting",
+      "source_file": "Lateral Movement/LM_PowershellRemoting_sysmon_1_wsmprovhost.evtx",
+      "source_category": "Lateral Movement",
+      "technique_id": "T1021.006",
+      "technique_name": "Remote Services: Windows Remote Management",
+      "attack_tactic": "Lateral Movement",
+      "mapping_basis": "Curated current mapping; upstream label retained separately"
+    },
+    {
+      "scenario": "WMI remote execution",
+      "source_file": "Lateral Movement/LM_WMI_4624_4688_TargetHost.evtx",
+      "source_category": "Lateral Movement",
+      "technique_id": "T1047",
+      "technique_name": "Windows Management Instrumentation",
+      "attack_tactic": "Execution",
+      "mapping_basis": "Curated from filename and event content"
+    },
+    {
+      "scenario": "Scheduled task creation and deletion",
+      "source_file": "Execution/temp_scheduled_task_4698_4699.evtx",
+      "source_category": "Execution",
+      "technique_id": "T1053.005",
+      "technique_name": "Scheduled Task/Job: Scheduled Task",
+      "attack_tactic": "Execution",
+      "mapping_basis": "Curated from filename and Windows event semantics"
+    },
+    {
+      "scenario": "WMI event subscription persistence",
+      "source_file": "Persistence/sysmon_20_21_1_CommandLineEventConsumer.evtx",
+      "source_category": "Persistence",
+      "technique_id": "T1546.003",
+      "technique_name": "Event Triggered Execution: Windows Management Instrumentation Event Subscription",
+      "attack_tactic": "Persistence",
+      "mapping_basis": "Curated from filename and Sysmon event semantics"
+    }
+  ]
+}
