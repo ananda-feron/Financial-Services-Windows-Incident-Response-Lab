@@ -31,6 +31,7 @@ ingestion/           EVTX parser, normalization, metadata, and SQLite storage
 incident-report/    Summary, timeline, and risk assessment
 incidents/          Alert correlation, persistence, timelines, notes, HTML view
 ioc/                Incident-linked IOC extraction, deduplication, provenance
+response/           Evidence-backed decisions and simulated response lifecycle
 mitre/              Evidence-to-ATT&CK mapping
 notes/              Contextual cybersecurity vocabulary
 remediation/        Prioritized response and control plan
@@ -104,6 +105,22 @@ python -m ioc.extractor --incident INC-XXXXXXXXXX
 IOC identity is deterministic by incident, type, and normalized value. Repeated values create additional event sightings rather than duplicate IOC records. Extracted values are observables requiring analyst validation—not automatic proof of compromise.
 
 See [IOC Extraction](docs/IOC_EXTRACTION.md) for field sources, normalization, deduplication, provenance, and analytical limitations.
+
+## Simulate Phase 4B response
+
+The response layer models five analyst decisions: isolate a host, disable an account, block an indicator, terminate a process, or collect an artifact. Every action requires a target, analyst rationale, and evidence alert already linked to the incident.
+
+Actions move through `PLANNED`, `APPROVED`, and `SIMULATED` without contacting real infrastructure. A simulated containment action can move an investigating incident to `CONTAINED`; collecting an artifact alone cannot.
+
+```bash
+python -m response.actions plan INC-XXXXXXXXXX ISOLATE_HOST HOST-01 \
+  --rationale "Contain activity supported by linked credential-access alerts." \
+  --analyst "Project analyst" --evidence-alert ALT-XXXXXXXXXXXX
+python -m response.actions approve ACT-XXXXXXXXXXXX
+python -m response.actions simulate ACT-XXXXXXXXXXXX
+```
+
+See [Simulated Incident Response](docs/SIMULATED_RESPONSE.md) for action semantics, evidence provenance, lifecycle controls, and the lab's explicit safety boundary.
 
 ## Run the original correlation detector
 

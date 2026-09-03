@@ -7,7 +7,10 @@ from datetime import datetime
 from typing import Any
 
 SEVERITY_RANK = {"low": 1, "medium": 2, "high": 3, "critical": 4}
-INCIDENT_STATUSES = {"NEW", "TRIAGING", "INVESTIGATING", "CONTAINED", "RESOLVED", "CLOSED"}
+INCIDENT_STATUSES = {
+    "NEW", "TRIAGING", "INVESTIGATING", "CONTAINED", "ERADICATION",
+    "RECOVERY", "RESOLVED", "CLOSED",
+}
 
 
 @dataclass(frozen=True)
