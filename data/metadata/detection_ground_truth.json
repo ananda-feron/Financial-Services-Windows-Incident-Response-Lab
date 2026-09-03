@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "dataset": "EVTX-ATTACK-SAMPLES",
+  "scope_note": "Positive test expectations for selected attack samples. This manifest does not label benign enterprise activity and cannot support a false-positive rate or precision claim.",
+  "samples": [
+    {
+      "source_file": "Credential Access/phish_windows_credentials_powershell_scriptblockLog_4104.evtx",
+      "technique_id": "T1059.001",
+      "expected_detections": ["DET-001"]
+    },
+    {
+      "source_file": "Persistence/sysmon_20_21_1_CommandLineEventConsumer.evtx",
+      "technique_id": "T1047",
+      "expected_detections": ["DET-002"]
+    },
+    {
+      "source_file": "Credential Access/babyshark_mimikatz_powershell.evtx",
+      "technique_id": "T1003.001",
+      "expected_detections": ["DET-003"]
+    }
+  ]
+}

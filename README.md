@@ -32,6 +32,7 @@ incident-report/    Summary, timeline, and risk assessment
 incidents/          Alert correlation, persistence, timelines, notes, HTML view
 ioc/                Incident-linked IOC extraction, deduplication, provenance
 response/           Evidence-backed decisions and simulated response lifecycle
+metrics/            Detection, ATT&CK, incident, response, provenance metrics
 mitre/              Evidence-to-ATT&CK mapping
 notes/              Contextual cybersecurity vocabulary
 remediation/        Prioritized response and control plan
@@ -121,6 +122,22 @@ python -m response.actions simulate ACT-XXXXXXXXXXXX
 ```
 
 See [Simulated Incident Response](docs/SIMULATED_RESPONSE.md) for action semantics, evidence provenance, lifecycle controls, and the lab's explicit safety boundary.
+
+## Generate Phase 5 metrics
+
+Generate deterministic reports from the current SQLite data, enabled YAML rules, and labeled positive-test expectations:
+
+```bash
+python -m metrics detection
+python -m metrics incidents
+python -m metrics coverage
+python -m metrics all
+python -m metrics all --json
+```
+
+The reports calculate event/rule/alert totals, expected versus actual detection outcomes, ATT&CK coverage, incident and response statistics, and evidence traceability. Precision, F1, and false-positive rate are intentionally omitted because the selected attack samples do not provide representative benign telemetry.
+
+See [Metrics Methodology](docs/METRICS_METHODOLOGY.md) for definitions, denominators, ground-truth scope, and interpretation limits.
 
 ## Run the original correlation detector
 
